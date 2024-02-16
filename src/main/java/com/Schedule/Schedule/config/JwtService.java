@@ -17,7 +17,7 @@ import java.util.function.Function;
 public class JwtService {
 
     private static final String SECRET_KEY = "jA4TpziSAUw+iPLjR8+cC0t8/VmVQPaA4M46yBfiXBQo0I8Y0tON2g1hErUa69+s";
-    private SecretKey key = Jwts.SIG.HS256.key().build();
+    private final SecretKey key = Jwts.SIG.HS256.key().build();
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -62,7 +62,7 @@ public class JwtService {
     private Claims extractAllClaims(String token) {
         return Jwts
                 .parser()
-                .verifyWith(getSignInKey())
+                .verifyWith(key)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
