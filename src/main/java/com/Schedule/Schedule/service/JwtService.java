@@ -1,4 +1,4 @@
-package com.Schedule.Schedule.config;
+package com.Schedule.Schedule.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.io.Console;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,7 @@ public class JwtService {
     private final SecretKey key = Jwts.SIG.HS256.key().build();
 
     public String extractUsername(String token) {
+        System.out.println(extractClaim(token, Claims::getSubject));
         return extractClaim(token, Claims::getSubject);
     }
 
