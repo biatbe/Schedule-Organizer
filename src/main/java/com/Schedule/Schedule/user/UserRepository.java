@@ -1,6 +1,5 @@
 package com.Schedule.Schedule.user;
 
-import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
