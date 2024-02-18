@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.io.Console;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +16,6 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "jA4TpziSAUw+iPLjR8+cC0t8/VmVQPaA4M46yBfiXBQo0I8Y0tON2g1hErUa69+s";
     private final SecretKey key = Jwts.SIG.HS256.key().build();
 
     public String extractUsername(String token) {
@@ -70,8 +68,4 @@ public class JwtService {
                 .getPayload();
     }
 
-    private SecretKey getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
 }

@@ -3,7 +3,6 @@ package com.Schedule.Schedule.service;
 import com.Schedule.Schedule.auth.AuthenticationRequest;
 import com.Schedule.Schedule.auth.AuthenticationResponse;
 import com.Schedule.Schedule.auth.RegisterRequest;
-import com.Schedule.Schedule.service.JwtService;
 import com.Schedule.Schedule.user.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
