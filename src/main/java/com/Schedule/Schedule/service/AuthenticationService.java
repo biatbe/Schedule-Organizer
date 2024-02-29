@@ -27,6 +27,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
+                .roleAtCompany(request.getRoleAtCompany())
                 .build();
         userRepository.save(user);
         var availability = Availability.builder()
