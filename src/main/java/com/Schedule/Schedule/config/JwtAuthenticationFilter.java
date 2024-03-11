@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,11 +21,12 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
+    @Order(Ordered.HIGHEST_PRECEDENCE)
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -33,6 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
+        System.out.println(authHeader);
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
@@ -40,6 +44,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         jwt = authHeader.substring(7);
         userEmail = jwtService.extractUsername(jwt);
+        System.out.println("Users email" + userEmail);
+        System.out.println("Security context holder" + SecurityContextHolder.getContext().getAuthentication());
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
             if (jwtService.isTokenValid(jwt, userDetails)) {
@@ -52,6 +58,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+                System.out.println("Users authenticated {" + userDetails.getUsername() + "}");
+                logger.debug("Users authenticated {" + userDetails.getUsername() + "}");
             }
         }
         filterChain.doFilter(request, response);

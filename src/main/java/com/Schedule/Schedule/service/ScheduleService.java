@@ -25,7 +25,7 @@ public class ScheduleService {
     }
 
     public Week getWeek(int weekOfYear) throws Exception{
-        Week week = weekRepository.findWeekByWeek(weekOfYear)
+        Week week = weekRepository.findWeekByWeekId(weekOfYear)
                 .orElseThrow(() -> new Exception("No week found with week number: " + weekOfYear));
 
         return week;

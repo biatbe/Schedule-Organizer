@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/schedule")
+@RequestMapping("/shifts")
 public class ScheduleController {
     private final ScheduleService scheduleService;
     private final JwtService jwtService;

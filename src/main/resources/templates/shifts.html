@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shifts</title>
+</head>
+<body>
+<label for="shift_date">Choose date:</label>
+
+<input type="date" id="shift_date" name="trip-start" min="2024-01-01" max="2024-12-31" />
+
+<input type="number" id="week_number" name="week_number">
+
+<table>
+    <tr>
+        <td>
+            Week
+        </td>
+    </tr>
+    <tr>
+        <td>Monday</td>
+        <td>Tuesday</td>
+        <td>Wednesday</td>
+        <td>Thursday</td>
+        <td>Friday</td>
+        <td>Saturday</td>
+        <td>Sunday</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+<script>
+    var currentDate = new Date();
+    var formattedDate = currentDate.toDateString();
+
+    document.getElementById("shift_date").value(formattedDate);
+</script>
+</body>
+</html>

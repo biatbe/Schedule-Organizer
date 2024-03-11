@@ -26,11 +26,19 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/shifts").authenticated()
                         .anyRequest().authenticated()
                 )
-                .formLogin(Customizer.withDefaults())
+                .formLogin(login -> login
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/shifts")
+                        .failureUrl("/login?error=true")
+                        .permitAll())
                 .sessionManagement((sessionMng) -> sessionMng
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .invalidSessionUrl("/login")
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(false)
                 )
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

@@ -34,6 +34,6 @@ public class Day {
     @JoinColumn(name = "_shift_id")
     private Shift shift;
 
-    @OneToMany(mappedBy = "day", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "email", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<User> employeeAssignments = new ArrayList<>();
 }
