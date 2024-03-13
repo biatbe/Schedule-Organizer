@@ -26,18 +26,22 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/api/v1/auth/**", "/login").permitAll()
-                        .requestMatchers("/shifts").authenticated()
+                        .requestMatchers("/api/v1/register", "/api/v1/login").permitAll()
+                        .requestMatchers("/api/v1/**").authenticated()
                         .anyRequest().authenticated()
+                )
+                .formLogin(login -> login
+                        .loginPage("/api/v1/login")
+                        .defaultSuccessUrl("/api/v1/shifts")
+                        .failureUrl("/api/v1/login?error=true")
+                        .permitAll()
                 )
                 .sessionManagement((sessionMng) -> sessionMng
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                        .invalidSessionUrl("/login")
-                        .maximumSessions(1)
-                        .maxSessionsPreventsLogin(false)
                 )
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).build();
+        ;
 
         return http.build();
     }

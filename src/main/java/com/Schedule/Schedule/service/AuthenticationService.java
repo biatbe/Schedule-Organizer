@@ -7,6 +7,7 @@ import com.Schedule.Schedule.user.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +53,17 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(user);
         System.out.println("Token: ......" + jwtToken);
         return AuthenticationResponse.builder()
+                .accessToken(jwtToken)
                 .token(jwtToken)
                 .build();
+    }
+
+    public Authentication authenticateAuth(AuthenticationRequest request) {
+        return authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
     }
 }
