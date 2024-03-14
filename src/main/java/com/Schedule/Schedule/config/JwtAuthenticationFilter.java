@@ -1,8 +1,11 @@
 package com.Schedule.Schedule.config;
 
 import com.Schedule.Schedule.service.JwtService;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
@@ -33,35 +36,42 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        final String userEmail;
-        System.out.println(authHeader);
+        String token = null;
+        String username = null;
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        if(request.getCookies() != null){
+            for(Cookie cookie: request.getCookies()){
+                if(cookie.getName().equals("accessToken")){
+                    token = cookie.getValue();
+                }
+            }
+        }
+
+        if(token == null){
             filterChain.doFilter(request, response);
             return;
         }
-        jwt = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(jwt);
-        System.out.println("Users email" + userEmail);
-        System.out.println("Security context holder" + SecurityContextHolder.getContext().getAuthentication());
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-            if (jwtService.isTokenValid(jwt, userDetails)) {
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-                System.out.println("Users authenticated {" + userDetails.getUsername() + "}");
-                logger.debug("Users authenticated {" + userDetails.getUsername() + "}");
-            }
+        try {
+            username = jwtService.extractUsername(token);
+        } catch (ExpiredJwtException | SignatureException e) {
+            System.out.println("Token is either expired or wrong! Redirecting to login page!");
+            // Token is expired or invalid, handle the exception
+            response.setHeader("Set-Cookie", "accessToken=; HttpOnly; Max-Age=0; Path=/;"); // Delete cookie
+            response.sendRedirect("/api/v1/login"); // Redirect to login page
+            return;
         }
+
+        if(username != null){
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            if(jwtService.isTokenValid(token, userDetails)){
+                UsernamePasswordAuthenticationToken authenticationToken =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            }
+
+        }
+
         filterChain.doFilter(request, response);
     }
 }

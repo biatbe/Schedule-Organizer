@@ -24,7 +24,7 @@ public class Day {
     private Long dayId;
 
     @ManyToOne
-    @JoinColumn(name = "_week_id")
+    @JoinColumn(name = "_weekOfYear")
     private Week week;
 
     @Column
@@ -34,6 +34,6 @@ public class Day {
     @JoinColumn(name = "_shift_id")
     private Shift shift;
 
-    @OneToMany(mappedBy = "email", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<User> employeeAssignments = new ArrayList<>();
+//    @OneToMany(mappedBy = "email", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<User> employeeAssignments = new ArrayList<>();
 }

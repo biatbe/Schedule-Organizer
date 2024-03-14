@@ -3,45 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>Shifts</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/shifts.css">
 </head>
 <body>
-<label for="shift_date">Choose date:</label>
-
-<input type="date" id="shift_date" name="trip-start" min="2024-01-01" max="2024-12-31" />
-
-<input type="number" id="week_number" name="week_number">
-
-<table>
-    <tr>
-        <td>
-            Week
-        </td>
-    </tr>
-    <tr>
-        <td>Monday</td>
-        <td>Tuesday</td>
-        <td>Wednesday</td>
-        <td>Thursday</td>
-        <td>Friday</td>
-        <td>Saturday</td>
-        <td>Sunday</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-</table>
+<div id="container">
+    <table>
+        <tr>
+            <td colspan="7" id="weekOfYear">
+                <select id="week_number" name="week_number">
+                    <option value="" disabled selected>Select Week</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Monday</td>
+            <td>Tuesday</td>
+            <td>Wednesday</td>
+            <td>Thursday</td>
+            <td>Friday</td>
+            <td>Saturday</td>
+            <td>Sunday</td>
+        </tr>
+        <tr id="shiftsData">
+        </tr>
+    </table>
+</div>
 
 <script>
-    var currentDate = new Date();
-    var formattedDate = currentDate.toDateString();
+    var selectWeek = document.getElementById("week_number");
 
-    document.getElementById("shift_date").value(formattedDate);
+    // Populate the select element with week options
+    for (var i = 1; i <= 52; i++) {
+        var option = document.createElement("option");
+        option.value = i;
+        option.text = "Week " + i;
+        selectWeek.appendChild(option);
+    }
+</script>
+<script>
+    $('#week_number').change(function() {
+        var selectedWeek = $(this).val(); // Get the selected week
+        if (selectedWeek) {
+            // Make AJAX request to fetch data for selected week
+            $.ajax({
+                url: '/api/v1/shifts/week?week=' + selectedWeek,
+                type: 'GET',
+                success: function(data) {
+                    console.log(data);
+                    $.each(data, function(index, items) {
+                        var newColumn =
+                            '<td>' + items.shift + '</td>';
+                        $('#shiftsData').append(newColumn);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+        }
+    });
 </script>
 </body>
 </html>

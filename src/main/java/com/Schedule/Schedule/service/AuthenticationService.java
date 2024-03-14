@@ -58,12 +58,4 @@ public class AuthenticationService {
                 .build();
     }
 
-    public Authentication authenticateAuth(AuthenticationRequest request) {
-        return authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-    }
 }

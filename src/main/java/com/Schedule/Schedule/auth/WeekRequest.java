@@ -14,4 +14,5 @@ import java.time.LocalDate;
 public class WeekRequest {
     private LocalDate startDate;
     private LocalDate endDate;
+    private int weekOfYear;
 }

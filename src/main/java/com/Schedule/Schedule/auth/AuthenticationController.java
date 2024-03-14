@@ -1,15 +1,16 @@
 package com.Schedule.Schedule.auth;
 
 import com.Schedule.Schedule.service.AuthenticationService;
+import com.Schedule.Schedule.service.JwtService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/api/v1")
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
 
     private final AuthenticationService service;
+    private final JwtService jwtService;
 
     @GetMapping("/login")
     public String login() {
@@ -30,22 +32,27 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.register(request));
     }
 
-    @PostMapping("/login")
-    public String AuthenticateAndGetToken(
-            @RequestBody AuthenticationRequest authenticationRequest,
+    @PostMapping("/loginProcess")
+    public ResponseEntity<?> AuthenticateAndGetToken(
+            @RequestParam (name = "username") String username,
+            @RequestParam (name = "password") String password,
             HttpServletResponse response
-    ){
-        String accessToken = service.authenticate(authenticationRequest).getAccessToken();
+    ) throws IOException {
+        AuthenticationRequest request = new AuthenticationRequest(username, password);
+        String accessToken = service.authenticate(request).getAccessToken();
         // set accessToken to cookie header
-        ResponseCookie cookie = ResponseCookie.from("accessToken", accessToken)
-                .httpOnly(true)
-                .secure(false)
-                .path("/")
-                .maxAge(1800)
-                .build();
-        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        Cookie jwtCookie = new Cookie("accessToken", accessToken);
+        jwtCookie.setHttpOnly(true);  // Set HttpOnly to true for security
+        jwtCookie.setSecure(false);    // Set secure to false if not using HTTPS
+        jwtCookie.setPath("/");        // Set the cookie path
+        jwtCookie.setMaxAge(1800);     // Set the cookie expiration time in seconds
 
-        return "shifts";
+        // Add the cookie to the response
+        response.addCookie(jwtCookie);
+        response.sendRedirect("/api/v1/shifts");
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
 }
