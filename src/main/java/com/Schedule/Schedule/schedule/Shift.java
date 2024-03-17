@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -34,4 +35,16 @@ public class Shift {
 
     @Column
     private int minimumStaff;
+
+    @ManyToMany
+    @JoinTable(
+            name = "day_shift",
+            joinColumns = @JoinColumn(name = "shift_id"),
+            inverseJoinColumns = @JoinColumn(name = "day_id")
+    )
+    private List<Day> days;
+
+    public void addDay(Day day) {
+        days.add(day);
+    }
 }

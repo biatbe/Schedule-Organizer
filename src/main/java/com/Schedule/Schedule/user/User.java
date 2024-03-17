@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -32,6 +33,8 @@ public class User implements UserDetails {
     private Role role;
     @Enumerated(EnumType.STRING)
     private RoleAtCompany roleAtCompany;
+    @OneToMany
+    private Set<Availability> availabilities;
 
 
     @Override

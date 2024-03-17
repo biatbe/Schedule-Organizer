@@ -1,4 +1,4 @@
-package com.Schedule.Schedule.auth;
+package com.Schedule.Schedule.auth.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

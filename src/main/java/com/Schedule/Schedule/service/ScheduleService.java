@@ -1,15 +1,14 @@
 package com.Schedule.Schedule.service;
 
-import com.Schedule.Schedule.auth.DayRequest;
-import com.Schedule.Schedule.auth.ShiftRequest;
-import com.Schedule.Schedule.auth.WeekRequest;
+import com.Schedule.Schedule.auth.request.DayRequest;
+import com.Schedule.Schedule.auth.request.ShiftRequest;
+import com.Schedule.Schedule.auth.request.WeekRequest;
 import com.Schedule.Schedule.schedule.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import static java.time.temporal.TemporalAdjusters.firstInMonth;
 
@@ -50,7 +49,7 @@ public class ScheduleService {
             week = registerWeek(new WeekRequest(startDate, endDate, weekOfYear));
             for (int i = startDayOfWeek; i <= endDayofWeek; i++) {
                 LocalDate day = LocalDate.ofYearDay(year, i);
-                DayRequest request = new DayRequest(day.getDayOfWeek(), null, week, null);
+                DayRequest request = new DayRequest(day, day.getDayOfWeek(),  week, null, null);
                 registerDayByDefault(request);
             }
         }
@@ -86,21 +85,11 @@ public class ScheduleService {
 
     public void registerDayByDefault(DayRequest request) {
         var day = Day.builder()
+                .date(request.getDate())
                 .day(request.getDay())
                 .week(request.getWeek())
                 //.employeeAssignments(new ArrayList<>()) // or request.getEmployees()
                 .build();
         dayRepository.save(day);
-    }
-
-    public Day registerDay(DayRequest request) {
-        var day = Day.builder()
-                .day(request.getDay())
-                .week(request.getWeek())
-                .shift(request.getShift())
-                //.employeeAssignments(new ArrayList<>()) // or request.getEmployees()
-                .build();
-        dayRepository.save(day);
-        return day;
     }
 }

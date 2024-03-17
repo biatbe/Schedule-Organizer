@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Assign Shifts</title>
+</head>
+<body>
+<h1>Assign Shifts to Days</h1>
+
+<form action="/api/v1/assignShifts" method="post" >
+    <label for="shift">Choose a Shift:</label>
+    <select id="shift" name="shift">
+        <option th:each="shift : ${shifts}" th:value="${shift.shiftId}" th:text="${shift.shiftType}"></option>
+    </select><br><br>
+
+    <label>Assign to Specific Day:</label>
+    <input type="date" id="specificDay" name="specificDay"><br><br>
+
+    <label>Assign to Day of the Week:</label>
+    <select id="dayOfWeek" name="dayOfWeek">
+        <option value="MONDAY">Monday</option>
+        <option value="TUESDAY">Tuesday</option>
+        <option value="WEDNESDAY">Wednesday</option>
+        <option value="THURSDAY">Thursday</option>
+        <option value="FRIDAY">Friday</option>
+        <option value="SATURDAY">Saturday</option>
+        <option value="SUNDAY">Sunday</option>
+    </select><br><br>
+
+    <button type="submit">Assign Shift</button>
+</form>
+</body>
+</html>

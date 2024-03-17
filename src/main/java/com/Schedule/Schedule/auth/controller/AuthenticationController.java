@@ -1,5 +1,8 @@
-package com.Schedule.Schedule.auth;
+package com.Schedule.Schedule.auth.controller;
 
+import com.Schedule.Schedule.auth.request.AuthenticationRequest;
+import com.Schedule.Schedule.auth.response.AuthenticationResponse;
+import com.Schedule.Schedule.auth.request.RegisterRequest;
 import com.Schedule.Schedule.service.AuthenticationService;
 import com.Schedule.Schedule.service.JwtService;
 import jakarta.servlet.http.Cookie;

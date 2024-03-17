@@ -1,6 +1,6 @@
 package com.Schedule.Schedule.service;
 
-import com.Schedule.Schedule.auth.AvailabilityRequest;
+import com.Schedule.Schedule.auth.request.AvailabilityRequest;
 import com.Schedule.Schedule.user.Availability;
 import com.Schedule.Schedule.user.AvailabilityRepository;
 import com.Schedule.Schedule.user.User;

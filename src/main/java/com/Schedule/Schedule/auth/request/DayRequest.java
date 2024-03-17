@@ -1,4 +1,4 @@
-package com.Schedule.Schedule.auth;
+package com.Schedule.Schedule.auth.request;
 
 import com.Schedule.Schedule.schedule.Shift;
 import com.Schedule.Schedule.schedule.Week;
@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -16,8 +17,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DayRequest {
+    private LocalDate date;
     private DayOfWeek day;
-    private Shift shift;
     private Week week;
+    private List<Shift> shift;
     private List<User> employees;
 }

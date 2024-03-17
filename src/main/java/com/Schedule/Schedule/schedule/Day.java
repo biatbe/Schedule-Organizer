@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,12 +29,18 @@ public class Day {
     private Week week;
 
     @Column
+    private LocalDate date;
+
+    @Column
     private DayOfWeek day;
 
-    @ManyToOne
-    @JoinColumn(name = "_shift_id")
-    private Shift shift;
+    @OneToMany(mappedBy = "shiftId")
+    private List<Shift> shifts;
 
-//    @OneToMany(mappedBy = "email", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<User> employeeAssignments = new ArrayList<>();
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<User> employeeAssignments;
+
+    public void addShift(Shift shift) {
+        shifts.add(shift);
+    }
 }

@@ -1,5 +1,6 @@
-package com.Schedule.Schedule.auth;
+package com.Schedule.Schedule.auth.controller;
 
+import com.Schedule.Schedule.auth.request.ShiftRequest;
 import com.Schedule.Schedule.schedule.Day;
 import com.Schedule.Schedule.schedule.Week;
 import com.Schedule.Schedule.service.ScheduleService;

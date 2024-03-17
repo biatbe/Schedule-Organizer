@@ -1,13 +1,12 @@
 package com.Schedule.Schedule.service;
 
-import com.Schedule.Schedule.auth.AuthenticationRequest;
-import com.Schedule.Schedule.auth.AuthenticationResponse;
-import com.Schedule.Schedule.auth.RegisterRequest;
+import com.Schedule.Schedule.auth.request.AuthenticationRequest;
+import com.Schedule.Schedule.auth.response.AuthenticationResponse;
+import com.Schedule.Schedule.auth.request.RegisterRequest;
 import com.Schedule.Schedule.user.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

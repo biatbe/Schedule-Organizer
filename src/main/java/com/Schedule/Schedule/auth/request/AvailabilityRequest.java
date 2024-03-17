@@ -1,21 +1,23 @@
-package com.Schedule.Schedule.auth;
+package com.Schedule.Schedule.auth.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShiftRequest {
-    private String shiftType;
+public class AvailabilityRequest {
+
+    private Long userId;
+    private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
-    private int minimumManagers;
-    private int minimumEmployees;
+    private String role;
 
 }
