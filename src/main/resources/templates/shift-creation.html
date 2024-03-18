@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Shifts</title>
+</head>
+<body>
+<form method="post" action="/api/v1/shifts/create">
+    <div><label>Shift name: <input type="text" name="shiftName" placeholder="E.g.: Open shift"/> </label></div>
+    <div><label>Start time: <input type="time" name="startTime"/> </label></div>
+    <div><label>End time: <input type="time" name="endTime"/> </label></div>
+    <div><label>Minimum staff: <input type="number" name="minimumStaff"/> </label></div>
+    <div><label>Minimum managers: <input type="number" name="minimumManagers"/> </label></div>
+    <div><button type="submit">Create</button></div>
+</form>
+
+</body>
+</html>

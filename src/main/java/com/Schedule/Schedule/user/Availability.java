@@ -1,5 +1,6 @@
 package com.Schedule.Schedule.user;
 
+import com.Schedule.Schedule.schedule.Day;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +27,7 @@ public class Availability {
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
-
-
+    @ManyToOne
+    @JoinColumn(name = "day_id")
+    private Day day;
 }

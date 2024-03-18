@@ -1,8 +1,8 @@
 package com.Schedule.Schedule.service;
 
-import com.Schedule.Schedule.auth.AuthenticationRequest;
-import com.Schedule.Schedule.auth.AuthenticationResponse;
-import com.Schedule.Schedule.auth.RegisterRequest;
+import com.Schedule.Schedule.auth.request.AuthenticationRequest;
+import com.Schedule.Schedule.auth.response.AuthenticationResponse;
+import com.Schedule.Schedule.auth.request.RegisterRequest;
 import com.Schedule.Schedule.user.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +27,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
+                .roleAtCompany(request.getRoleAtCompany())
                 .build();
         userRepository.save(user);
         var availability = Availability.builder()
@@ -49,8 +50,11 @@ public class AuthenticationService {
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
+        System.out.println("Token: ......" + jwtToken);
         return AuthenticationResponse.builder()
+                .accessToken(jwtToken)
                 .token(jwtToken)
                 .build();
     }
+
 }

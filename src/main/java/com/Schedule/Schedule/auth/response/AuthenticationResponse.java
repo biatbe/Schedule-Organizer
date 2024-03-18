@@ -1,4 +1,4 @@
-package com.Schedule.Schedule.auth;
+package com.Schedule.Schedule.auth.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthenticationResponse {
 
+    private String accessToken;
     private String token;
 }

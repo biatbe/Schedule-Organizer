@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Availability</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/shifts.css">
+    <link rel="stylesheet" type="text/css" href="/header.css">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div id="container">
+    <table>
+        <tr>
+            <td colspan="7" id="weekOfYear">
+                <select id="week_number" name="week_number">
+                    <option value="" disabled selected>Select Week</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Monday</td>
+            <td>Tuesday</td>
+            <td>Wednesday</td>
+            <td>Thursday</td>
+            <td>Friday</td>
+            <td>Saturday</td>
+            <td>Sunday</td>
+        </tr>
+        <tr id="shiftsData">
+        </tr>
+    </table>
+</div>
+
+<script src="/js/weekSelector.js"></script>
+
+</body>
+</html>
