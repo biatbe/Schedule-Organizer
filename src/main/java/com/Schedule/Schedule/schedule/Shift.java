@@ -1,5 +1,6 @@
 package com.Schedule.Schedule.schedule;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,15 +37,8 @@ public class Shift {
     @Column
     private int minimumStaff;
 
-    @ManyToMany
-    @JoinTable(
-            name = "day_shift",
-            joinColumns = @JoinColumn(name = "shift_id"),
-            inverseJoinColumns = @JoinColumn(name = "day_id")
-    )
-    private List<Day> days;
+    @JsonIgnore
+    @OneToMany(mappedBy = "shift")
+    private List<DayShift> dayShifts;
 
-    public void addDay(Day day) {
-        days.add(day);
-    }
 }

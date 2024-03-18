@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface DayRepository extends JpaRepository<Day, Long> {
     Optional<List<Day>> findByWeek(Week week);
     Optional<List<Day>> findDaysByDay(DayOfWeek day);
-    Optional<Day> getDayByDate(LocalDate date);
+    Optional<Day> findDayByDate(LocalDate date);
 }

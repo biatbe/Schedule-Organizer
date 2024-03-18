@@ -1,6 +1,6 @@
 package com.Schedule.Schedule.schedule;
 
-import com.Schedule.Schedule.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -34,13 +33,7 @@ public class Day {
     @Column
     private DayOfWeek day;
 
-    @OneToMany(mappedBy = "shiftId")
-    private List<Shift> shifts;
+    @OneToMany(mappedBy = "day")
+    private List<DayShift> dayShifts;
 
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<User> employeeAssignments;
-
-    public void addShift(Shift shift) {
-        shifts.add(shift);
-    }
 }

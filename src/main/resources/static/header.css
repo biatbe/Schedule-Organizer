@@ -1,3 +1,7 @@
+body {
+    margin: 0;
+}
+
 header {
     overflow: hidden;
     background-color: #f1f1f1;
@@ -23,11 +27,6 @@ header {
 .site-menu a:hover {
     background-color: #ddd;
     color: black;
-}
-
-.site-menu a.active {
-    background-color: dodgerblue;
-    color: white;
 }
 
 .header-content {
